@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="../leaflet.css" />
+  <script src="../leaflet.js"></script>
+</head>
+<style>
+  .map {
+    height: 500px;
+    width: 1000px;
+    border: 1px solid #000;
+  }
+</style>
+<div id="map" class="map"></div>
+<script>
+  var satellite = L.tileLayer(
+    'https://webst0{s}.is.autonavi.com/appmaptile?' +
+    'style=6&x={x}&y={y}&z={z}',
+    {
+      subdomains: '1234'
+    }
+  )
+  var street = L.tileLayer(
+    'https://webst0{s}.is.autonavi.com/appmaptile?' +
+    'style=7&x={x}&y={y}&z={z}',
+    {
+      subdomains: '1234'
+    }
+  )
+  var map = L.map('map',
+    {
+      center: [34.1845, 108.947],
+      zoom: 13,
+      layers: [street]
+    }
+  );
+  L.control.layers({
+    '卫星图': satellite, '街道图': street
+  }).addTo(map);
+  map.on('click', function (e) {
+    console.log(e.latlng)
+    L.marker(e.latlng, {
+      color: 'red'
+    }).addTo(map)
+      .bindPopup('经纬度:' + e.latlng)
+  })
+</script>
+
+<body>
+
+</body>
+
+</html>
